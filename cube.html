@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Rotating Cube</title>
+  <style>
+    #canvas {
+      border: 1px solid black;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas" width="400" height="400"></canvas>
+
+  <script>
+    // Get the canvas element
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+    // Set the cube's properties
+    const cubeSize = 200; // Size of the cube
+    const cubeCenterX = canvas.width / 2; // X coordinate of the cube's center
+    const cubeCenterY = canvas.height / 2; // Y coordinate of the cube's center
+
+    let rotation = 0; // Current rotation angle
+
+    // Function to draw a face of the cube
+    function drawFace(x1, y1, x2, y2, x3, y3, x4, y4) {
+      ctx.beginPath();
+      ctx.moveTo(x1, y1);
+      ctx.lineTo(x2, y2);
+      ctx.lineTo(x3, y3);
+      ctx.lineTo(x4, y4);
+      ctx.closePath();
+      ctx.stroke();
+    }
+
+    // Function to draw the cube
+    function drawCube() {
+      // Clear the canvas
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Rotate the cube
+      rotation += 0.01;
+
+      // Save the current transformation matrix
+      ctx.save();
+
+      // Translate the canvas to the cube's center
+      ctx.translate(cubeCenterX, cubeCenterY);
+
+      // Apply the rotation
+      ctx.rotate(rotation);
+
+      // Draw the front face
+      drawFace(
+        -cubeSize / 2, -cubeSize / 2,
+        cubeSize / 2, -cubeSize / 2,
+        cubeSize / 2, cubeSize / 2,
+        -cubeSize / 2, cubeSize / 2
+      );
+
+      // Draw the top face
+      drawFace(
+        -cubeSize / 2, -cubeSize / 2,
+        cubeSize / 2, -cubeSize / 2,
+        cubeSize / 2, -cubeSize / 2,
+        -cubeSize / 2, -cubeSize / 2
+      );
+
+      // Draw the side face
+      drawFace(
+        cubeSize / 2, -cubeSize / 2,
+        cubeSize / 2, cubeSize / 2,
+        cubeSize / 2, cubeSize / 2,
+        cubeSize / 2, -cubeSize / 2
+      );
+
+      // Restore the original transformation matrix
+      ctx.restore();
+
+      // Call the drawCube function on the next animation frame
+      requestAnimationFrame(drawCube);
+    }
+
+    // Call the drawCube function to start drawing the rotating cube
+    drawCube();
+  </script>
+</body>
+</html>
